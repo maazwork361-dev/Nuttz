@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Nuttz</title>
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f6f7f9;--surface:#fff;--ink:#16181d;--muted:#656b76;--line:#e4e7ec;--accent:#3b4bdb;--accent-soft:#eceefd;--ok:#15803d;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);color-scheme:light}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#111317;--surface:#1a1d23;--ink:#eef0f3;--muted:#9aa1ac;--line:#2a2e36;--accent:#8c98ff;--accent-soft:#232743;--ok:#4ade80;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#111317;--surface:#1a1d23;--ink:#eef0f3;--muted:#9aa1ac;--line:#2a2e36;--accent:#8c98ff;--accent-soft:#232743;--ok:#4ade80;color-scheme:dark}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 Figtree,system-ui,-apple-system,"Segoe UI",sans-serif}
+button,input,select{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.app{display:grid;grid-template-columns:230px 1fr;min-height:100vh}
+aside{background:var(--surface);border-right:1px solid var(--line);padding:24px 16px;position:sticky;top:0;height:100vh;display:flex;flex-direction:column;gap:28px}
+.logo{display:flex;align-items:center;gap:10px;font-weight:700;font-size:21px;letter-spacing:-.02em;padding:0 8px}
+.logo i{width:30px;height:30px;border-radius:9px;background:var(--accent);color:#fff;display:grid;place-items:center;font-style:normal;font-size:17px}
+nav{display:flex;flex-direction:column;gap:4px}
+nav button{display:flex;align-items:center;gap:12px;border:0;background:none;padding:10px 12px;border-radius:10px;color:var(--muted);font-weight:500;text-align:left}
+nav button:hover{background:var(--bg);color:var(--ink)}
+nav button.on{background:var(--accent-soft);color:var(--accent);font-weight:600}
+nav svg{width:20px;height:20px;flex:none;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.side-foot{margin-top:auto;font-size:13px;color:var(--muted);padding:0 8px}
+main{padding:28px clamp(20px,4vw,48px) 48px;max-width:1100px;width:100%}
+.top{display:flex;gap:12px;align-items:center;margin-bottom:28px}
+.search{flex:1;position:relative}
+.search input{width:100%;height:44px;border:1px solid var(--line);background:var(--surface);border-radius:12px;padding:0 14px 0 42px}
+.search svg{position:absolute;left:13px;top:12px;width:20px;height:20px;stroke:var(--muted);fill:none;stroke-width:1.8;stroke-linecap:round}
+.icon-btn{height:44px;width:44px;border:1px solid var(--line);background:var(--surface);border-radius:12px;display:grid;place-items:center}
+h1{font-size:28px;letter-spacing:-.02em;margin:0 0 4px;line-height:1.2}
+h2{font-size:17px;margin:32px 0 12px}.group h2{margin:24px 0 10px;display:flex;justify-content:space-between;align-items:baseline}.group h2 small{font-size:13px;font-weight:500;color:var(--muted)}
+.sub{color:var(--muted);margin:0 0 24px}
+.tiles{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.tile{border:1px solid var(--line);background:var(--surface);border-radius:16px;padding:22px;text-align:left;display:flex;flex-direction:column;gap:6px}
+.tile:hover{border-color:var(--accent)}
+.tile strong{font-size:18px}
+.tile span{color:var(--muted)}
+.tile.main{background:var(--accent);border-color:var(--accent);color:#fff}
+.tile.main span{color:rgba(255,255,255,.8)}
+:root[data-theme="dark"] .tile.main,:root:not([data-theme="light"]) .tile.main{color:#0d1030}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+.chip{border:1px solid var(--line);background:var(--surface);padding:7px 14px;border-radius:999px;color:var(--muted);font-weight:500}
+.chip.on{background:var(--ink);border-color:var(--ink);color:var(--bg)}
+.bar{display:flex;gap:10px;align-items:center;justify-content:space-between;margin-bottom:12px;flex-wrap:wrap}
+select{height:38px;border:1px solid var(--line);background:var(--surface);border-radius:10px;padding:0 10px}
+.count{color:var(--muted);font-size:14px}
+.list{background:var(--surface);border:1px solid var(--line);border-radius:16px;overflow:hidden}
+.row{display:flex;align-items:center;gap:14px;padding:14px 18px;border-bottom:1px solid var(--line)}
+.row:last-child{border-bottom:0}
+.yr{font-weight:700;width:52px;color:var(--accent)}
+.grow{flex:1;min-width:0}
+.grow b{display:block;font-weight:600}
+.grow small{color:var(--muted)}
+a.btn{text-decoration:none;display:inline-block}
+.btn{border:1px solid var(--line);background:var(--surface);border-radius:10px;padding:7px 14px;font-weight:600}
+.btn:hover{border-color:var(--accent);color:var(--accent)}
+.star{border:0;background:none;width:36px;height:36px;border-radius:9px;display:grid;place-items:center;color:var(--muted)}
+.star:hover{background:var(--bg)}
+.star svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linejoin:round}
+.star.on{color:#d49a00}.star.on svg{fill:currentColor}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:16px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:20px;display:flex;flex-direction:column;gap:14px}
+.card h3{margin:0;font-size:16px}
+.meta{display:flex;gap:16px;color:var(--muted);font-size:14px}
+.tag{align-self:flex-start;background:var(--accent-soft);color:var(--accent);font-size:13px;font-weight:600;padding:3px 10px;border-radius:999px}
+.card .btn{text-align:center;text-decoration:none;margin-top:auto;background:var(--accent);border-color:var(--accent);color:#fff}
+:root[data-theme="dark"] .card .btn,:root:not([data-theme="light"]) .card .btn{text-align:center;text-decoration:none;color:#0d1030}
+.empty{padding:40px 20px;text-align:center;color:var(--muted)}
+.toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));transform:translate(-50%,20px);background:var(--ink);color:var(--bg);padding:10px 18px;border-radius:12px;opacity:0;pointer-events:none;transition:.2s;z-index:20}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+.view{display:none}.view.on{display:block}
+@media (max-width:760px){
+.app{grid-template-columns:1fr}
+aside{position:fixed;inset:auto 0 0 0;height:auto;flex-direction:row;padding:6px 8px calc(6px + env(safe-area-inset-bottom,0px));z-index:10;border-right:0;border-top:1px solid var(--line)}
+.logo,.side-foot{display:none}
+nav{flex-direction:row;width:100%;justify-content:space-around}
+nav button{flex-direction:column;gap:2px;font-size:12px;padding:6px 10px}
+main{padding-bottom:96px}
+.tiles{grid-template-columns:1fr}
+.row .btn{padding:6px 10px}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<div class="app">
+<aside>
+  <div class="logo"><i>N</i>Nuttz</div>
+  <nav id="nav">
+    <button data-v="home" class="on"><svg viewBox="0 0 24 24"><path d="M4 11l8-7 8 7v9H4z"/></svg>Home</button>
+    <button data-v="pyq"><svg viewBox="0 0 24 24"><path d="M6 3h9l4 4v14H6z"/><path d="M14 3v5h5M9 13h6M9 17h6"/></svg>PYQs</button>
+    <button data-v="mock"><svg viewBox="0 0 24 24"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l3 2M9 2h6"/></svg>Mock papers</button>
+    <button data-v="saved"><svg viewBox="0 0 24 24"><path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.5l6.1-.9z"/></svg>Saved</button>
+  </nav>
+  <div class="side-foot">Study smart, not hard.</div>
+</aside>
+
+<main>
+  <div class="top">
+    <label class="search"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg>
+      <input id="q" type="search" placeholder="Search papers by subject or year" aria-label="Search papers"></label>
+    <button class="icon-btn" id="theme" aria-label="Switch theme" title="Switch theme">◐</button>
+  </div>
+
+  <section class="view on" id="home">
+    <h1>Hi, ready to practise?</h1>
+    <p class="sub" id="homeSub">Pick up where you left off or start something new.</p>
+    <div class="tiles">
+      <button class="tile main" data-go="pyq"><strong>Previous year questions</strong><span id="pyqN"></span></button>
+      <button class="tile" data-go="mock"><strong>Mock papers</strong><span id="mockN"></span></button>
+    </div>
+    <h2>Recently opened</h2>
+    <div class="list" id="recent"></div>
+  </section>
+
+  <section class="view" id="pyq">
+    <h1>Previous year questions</h1>
+    <p class="sub">Choose a subject or year, then open a paper.</p>
+    <div class="chips" id="pyqSubjects"></div>
+    <div class="bar">
+      <span class="count" id="pyqCount"></span>
+      <select id="year" aria-label="Year"></select>
+    </div>
+    <div class="list" id="pyqList"></div>
+  </section>
+
+  <section class="view" id="mock">
+    <h1>Mock papers</h1>
+    <p class="sub">Practice sets for your subjects. Pick one and start when you’re ready.</p>
+    <div class="chips" id="mockSubjects"></div>
+    <div class="grid" id="mockGrid"></div>
+  </section>
+
+  <section class="view" id="saved">
+    <h1>Saved</h1>
+    <p class="sub">Papers you starred show up here.</p>
+    <div class="list" id="savedList"></div>
+  </section>
+</main>
+</div>
+<div class="toast" id="toast" role="status"></div>
+
+<script>
+let PYQ=[],MOCK=[],ALL=[];
+const $=s=>document.querySelector(s);
+const state={view:"home",pyqSub:"All",mockSub:"All",year:"All"};
+let saved=new Set(),recent=[];
+try{saved=new Set(JSON.parse(localStorage.getItem("nuttz-saved")||"[]"));recent=JSON.parse(localStorage.getItem("nuttz-recent")||"[]")}catch(e){}
+const persist=()=>{try{localStorage.setItem("nuttz-saved",JSON.stringify([...saved]));localStorage.setItem("nuttz-recent",JSON.stringify(recent))}catch(e){}};
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const starSvg='<svg viewBox="0 0 24 24"><path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.5l6.1-.9z"/></svg>';
+const size=b=>b>1048576?(b/1048576).toFixed(1)+" MB":Math.max(1,Math.round(b/1024))+" KB";
+const uniq=a=>[...new Set(a)];
+const empty=m=>`<div class="empty">${m}</div>`;
+const NONE="No papers yet. Add PDFs to the papers folder and redeploy.";
+
+async function load(){
+  try{
+    const r=await fetch("papers.json",{cache:"no-store"});
+    if(!r.ok)throw 0;
+    const d=await r.json();
+    PYQ=d.pyq.map(p=>({...p,kind:"pyq"}));
+    MOCK=d.mock.map(p=>({...p,kind:"mock"}));
+    ALL=[...PYQ,...MOCK];
+  }catch(e){
+    $("#homeSub").textContent="Couldn’t load your papers. Run the build step, then open the site from a server.";
+  }
+  render();
+}
+
+function chips(el,list,key){
+  $(el).innerHTML=["All",...list].map(s=>`<button class="chip ${state[key]===s?"on":""}" data-chip="${key}" data-val="${esc(s)}">${esc(s)}</button>`).join("");
+}
+function row(p){
+  return `<div class="row"><div class="yr">${p.year||"—"}</div>
+  <div class="grow"><b>${esc(p.title)}</b><small>${esc(p.subject)} · ${size(p.size)}</small></div>
+  <button class="star ${saved.has(p.path)?"on":""}" data-star="${esc(p.path)}" aria-label="Save paper">${starSvg}</button>
+  <a class="btn" href="${esc(p.path)}" target="_blank" rel="noopener" data-open="${esc(p.path)}">Open</a></div>`;
+}
+const match=(p,q)=>!q||(p.title+" "+p.subject+" "+(p.year||"")).toLowerCase().includes(q);
+
+function render(){
+  const q=$("#q").value.trim().toLowerCase();
+  const ps=uniq(PYQ.map(p=>p.subject)).sort(),ms=uniq(MOCK.map(p=>p.subject)).sort();
+  const years=uniq(PYQ.map(p=>p.year).filter(Boolean)).sort((a,b)=>b-a);
+  if(state.pyqSub!=="All"&&!ps.includes(state.pyqSub))state.pyqSub="All";
+  if(state.mockSub!=="All"&&!ms.includes(state.mockSub))state.mockSub="All";
+  if(state.year!=="All"&&!years.includes(Number(state.year)))state.year="All";
+
+  $("#pyqN").textContent=PYQ.length?`${PYQ.length} papers · ${ps.length} subject${ps.length===1?"":"s"}`:"No papers added yet";
+  $("#mockN").textContent=MOCK.length?`${MOCK.length} paper${MOCK.length===1?"":"s"} · ${ms.length} subject${ms.length===1?"":"s"}`:"No papers added yet";
+
+  chips("#pyqSubjects",ps,"pyqSub");chips("#mockSubjects",ms,"mockSub");
+  $("#year").innerHTML=["All",...years].map(y=>`<option value="${y}" ${String(y)===String(state.year)?"selected":""}>${y==="All"?"All years":y}</option>`).join("");
+
+  const pf=PYQ.filter(p=>(state.pyqSub==="All"||p.subject===state.pyqSub)&&(state.year==="All"||p.year==state.year)&&match(p,q))
+    .sort((a,b)=>a.subject.localeCompare(b.subject)||(b.year||0)-(a.year||0)||a.title.localeCompare(b.title));
+  $("#pyqCount").textContent=pf.length+" paper"+(pf.length===1?"":"s");
+  const groups=uniq(pf.map(p=>p.subject));
+  $("#pyqList").innerHTML=pf.length?groups.map(s=>{const g=pf.filter(p=>p.subject===s);
+    return `<div class="group"><h2>${esc(s)}<small>${g.length}</small></h2><div class="list">${g.map(row).join("")}</div></div>`}).join(""):empty(PYQ.length?"No papers match. Try a different subject or year.":NONE);
+  $("#pyqList").className="";
+
+  const mf=MOCK.filter(m=>(state.mockSub==="All"||m.subject===state.mockSub)&&match(m,q)).sort((a,b)=>a.subject.localeCompare(b.subject)||a.title.localeCompare(b.title,undefined,{numeric:true}));
+  $("#mockGrid").innerHTML=mf.length?mf.map(m=>`<div class="card"><span class="tag">${esc(m.subject)}</span><h3>${esc(m.title)}</h3>
+    <div class="meta"><span>${size(m.size)}</span></div>
+    <a class="btn" href="${esc(m.path)}" target="_blank" rel="noopener" data-open="${esc(m.path)}">Start test</a></div>`).join(""):`<div class="empty" style="grid-column:1/-1">${MOCK.length?"No mock papers match your search.":NONE}</div>`;
+
+  const sv=ALL.filter(p=>saved.has(p.path));
+  $("#savedList").innerHTML=sv.length?sv.map(row).join(""):empty("Nothing saved yet. Tap the star on any paper to keep it here.");
+  $("#savedList").className=sv.length?"list":"list";
+  const rc=recent.map(i=>ALL.find(p=>p.path===i)).filter(Boolean);
+  $("#recent").innerHTML=rc.length?rc.map(row).join(""):empty("Papers you open will appear here.");
+}
+
+function go(v){
+  state.view=v;
+  document.querySelectorAll(".view").forEach(e=>e.classList.toggle("on",e.id===v));
+  document.querySelectorAll("#nav button").forEach(b=>b.classList.toggle("on",b.dataset.v===v));
+  window.scrollTo(0,0);
+}
+document.addEventListener("click",e=>{
+  const o=e.target.closest("[data-open]");
+  if(o){const i=o.dataset.open;recent=[i,...recent.filter(x=>x!==i)].slice(0,5);persist();setTimeout(render,0);return}
+  const t=e.target.closest("button");if(!t)return;
+  if(t.dataset.v)go(t.dataset.v);
+  else if(t.dataset.go)go(t.dataset.go);
+  else if(t.dataset.chip){state[t.dataset.chip]=t.dataset.val;render()}
+  else if(t.dataset.star){const i=t.dataset.star;saved.has(i)?saved.delete(i):saved.add(i);persist();render()}
+});
+$("#year").addEventListener("change",e=>{state.year=e.target.value;render()});
+$("#q").addEventListener("input",()=>{if(state.view==="home"||state.view==="saved")go("pyq");render()});
+$("#theme").addEventListener("click",()=>{
+  const r=document.documentElement,dark=r.dataset.theme?r.dataset.theme==="dark":matchMedia("(prefers-color-scheme:dark)").matches;
+  r.dataset.theme=dark?"light":"dark";
+});
+load();
+</script>
+</body>
+</html>
